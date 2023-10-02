@@ -3,12 +3,33 @@
 namespace App\Livewire;
 
 use App\Models\Poll;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class CreatePoll extends Component
 {
     public $title;
     public $options = [''];
+
+    public function rules()
+    {
+        return [
+            'title' => 'required|min:3|max:255',
+            'options' => 'required|array|min:1|max:10',
+            'options.*' => 'required|min:1|max:255',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'options.*' => 'The option can\'t be empty.',
+        ];
+    }
+
+    protected $messages = [
+        'options.*' => 'The option can\'t be empty 123.',
+    ];
 
     public function render()
     {
@@ -28,6 +49,8 @@ class CreatePoll extends Component
 
     public function createPoll()
     {
+        $this->validate();
+
         Poll::create([
             'title' => $this->title
         ])->options()->createMany(
