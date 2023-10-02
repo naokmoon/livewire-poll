@@ -27,10 +27,6 @@ class CreatePoll extends Component
         ];
     }
 
-    protected $messages = [
-        'options.*' => 'The option can\'t be empty 123.',
-    ];
-
     public function render()
     {
         return view('livewire.create-poll');
